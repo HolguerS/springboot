@@ -1,5 +1,6 @@
 package com.pichincha.prueba.demo.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,7 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,16 +26,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 
-
-public class Product {
+public class ProductOrder {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "product_id")
+	@Column(name = "order_id")
 	private Long id;
-	private String name;
-	private Double price;
-	@OneToMany(mappedBy = "productOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST )
-	private List<StoreStock> stockByStore;
+	private Date dateOrdered;
+	@OneToMany(mappedBy = "orderOwner", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+	private List<DetailOrder> details;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "user_id", nullable = true)
+	private UserStore userOwner;
 }

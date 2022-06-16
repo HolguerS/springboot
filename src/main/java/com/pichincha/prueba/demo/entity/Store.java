@@ -3,7 +3,10 @@ package com.pichincha.prueba.demo.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,14 +29,13 @@ public class Store {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
+	@Column(name = "store_id")
 	private Long id;
 	private String name;
 	private String category;
-	private User owner; 
-	
-	@OneToMany
-	private List<StoreStock> products;
-		
+	private String owner;
+
+	@OneToMany(mappedBy = "storeOwner", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	private List<StoreStock> products;		
 	
 }
